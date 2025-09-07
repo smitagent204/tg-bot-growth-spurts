@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Growth spurts</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .app { max-width: 800px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <div id="app" class="app">
+        <h1>Telegram Bot Growth Spurts</h1>
+        <p>{{ message }}</p>
+        <div>
+            <button @click="increment">Счетчик: {{ count }}</button>
+        </div>
+    </div>
+
+    <script>
+        // // Конфигурация Firebase (замените на свои значения!)
+        // const firebaseConfig = {
+        //     apiKey: "ваш-api-key",
+        //     authDomain: "ваш-проект.firebaseapp.com",
+        //     projectId: "ваш-project-id",
+        //     storageBucket: "ваш-проект.appspot.com",
+        //     messagingSenderId: "123456789",
+        //     appId: "ваш-app-id"
+        // };
+
+        // // Инициализируем Firebase
+        // firebase.initializeApp(firebaseConfig);
+        // const db = firebase.firestore();
+
+        // Инициализируем Telegram Web App и получаем данные пользователя
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Разворачиваем приложение на весь экран
+        const user = tg.initDataUnsafe.user; // Получаем объект пользователя
+        console.log(user)
+
+        // // Проверяем, авторизован ли пользователь через Telegram
+        // if (user) {
+        //     // Показываем основной интерфейс
+        //     document.getElementById('auth-message').style.display = 'none';
+        //     document.getElementById('app').style.display = 'block';
+        //     document.getElementById('user-id').textContent = user.id;
+            
+        //     // Загружаем данные пользователя из базы
+        //     loadUserData(user.id);
+        // } else {
+        //     document.getElementById('auth-message').textContent = 'Ошибка: войдите через Telegram.';
+        // }
+
+        // // Функция загрузки данных из Firestore
+        // function loadUserData(userId) {
+        //     db.collection('users').doc(userId.toString()).get()
+        //     .then((doc) => {
+        //         if (doc.exists) {
+        //             // Если данные найдены, показываем их
+        //             const userData = doc.data();
+        //             const birthday = userData.birthday.toDate();
+        //             document.getElementById('birthday-input').valueAsDate = birthday;
+        //             calculateDaysLeft(birthday);
+        //         } else {
+        //             document.getElementById('result').textContent = 'Задайте вашу дату рождения.';
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         console.error('Ошибка загрузки:', error);
+        //         document.getElementById('result').textContent = 'Ошибка загрузки данных.';
+        //     });
+        // }
+
+        // // Функция сохранения даты рождения
+        // function saveBirthday() {
+        //     const birthdayInput = document.getElementById('birthday-input').value;
+        //     if (!birthdayInput) {
+        //         alert('Выберите дату!');
+        //         return;
+        //     }
+
+        //     const birthday = new Date(birthdayInput);
+        //     const userId = user.id.toString(); // Используем Telegram ID как ключ документа
+
+        //     // Сохраняем в Firestore
+        //     db.collection('users').doc(userId).set({
+        //         birthday: firebase.firestore.Timestamp.fromDate(birthday),
+        //         first_name: user.first_name // Сохраняем имя для удобства (опционально)
+        //     })
+        //     .then(() => {
+        //         alert('Дата сохранена!');
+        //         calculateDaysLeft(birthday);
+        //     })
+        //     .catch((error) => {
+        //         console.error('Ошибка сохранения:', error);
+        //         alert('Ошибка при сохранении.');
+        //     });
+        // }
+
+        const { createApp, ref } = Vue;
+        
+        const app = createApp({
+            setup() {
+                const message = ref('Добро пожаловать в Vue 3!');
+                const count = ref(0);
+                
+                const increment = () => {
+                    count.value++;
+                };
+                
+                return {
+                    message,
+                    count,
+                    increment
+                };
+            }
+        });
+        
+        app.mount('#app');
+    </script>
+</body>
+</html>

@@ -134,8 +134,9 @@
                 };
             }
         });
-        
-        app.mount('#app');
+        document.addEventListener('DOMContentLoaded', () => {
+            app.mount('#app')
+        })     
     </script>
 </body>
 </html>

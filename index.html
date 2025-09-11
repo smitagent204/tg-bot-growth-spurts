@@ -116,7 +116,7 @@
                     const tg = window.Telegram.WebApp
                     const user = tg.initDataUnsafe?.user
                     if (user) {
-                        userId.value = user?.id
+                        userId.value = user?.id ?? 'Нет user'
                     }
                     console.log('User:', user)
                     console.log('User_id:', user?.id)

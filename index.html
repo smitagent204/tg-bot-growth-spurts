@@ -22,25 +22,35 @@
     </div>
 
     <script>
-        // // Конфигурация Firebase (замените на свои значения!)
-        // const firebaseConfig = {
-        //     apiKey: "ваш-api-key",
-        //     authDomain: "ваш-проект.firebaseapp.com",
-        //     projectId: "ваш-project-id",
-        //     storageBucket: "ваш-проект.appspot.com",
-        //     messagingSenderId: "123456789",
-        //     appId: "ваш-app-id"
-        // };
+        const firebaseConfig = {
+            projectId: "tg-bot-growth-spurts",
+        }
 
-        // // Инициализируем Firebase
-        // firebase.initializeApp(firebaseConfig);
-        // const db = firebase.firestore();
+        firebase.initializeApp({
+            projectId: firebaseConfig.projectId
+        })
+        const db = firebase.firestore()
 
-        // Инициализируем Telegram Web App и получаем данные пользователя
-        const tg = window.Telegram.WebApp;
-        tg.expand(); // Разворачиваем приложение на весь экран
-        const user = tg.initDataUnsafe.user; // Получаем объект пользователя
+        const tg = window.Telegram.WebApp
+        const user = tg.initDataUnsafe?.user
+        if (user) {
+            userId.value = user.id
+        }
         console.log(user)
+
+        // Создание записи пользователя
+        const createUserRecord = async () => {
+            if (!userId.value) return
+            
+            try {
+                const userRef = firebase.firestore().collection('users').doc(userId.value.toString())
+                await userRef.set({
+                    id: userId.value,
+                })
+            } catch (error) {
+                console.error('Ошибка создания пользователя:', error);
+            }
+        };
 
         // // Проверяем, авторизован ли пользователь через Telegram
         // if (user) {
@@ -105,7 +115,8 @@
         
         const app = createApp({
             setup() {
-                const message = ref('Добро пожаловать в Vue 3!');
+                const message = ref(user);
+                const userId = ref('')
                 const count = ref(0);
                 
                 const increment = () => {
@@ -113,6 +124,7 @@
                 };
                 
                 return {
+                    userId,
                     message,
                     count,
                     increment

@@ -33,18 +33,18 @@
 
 
         // Создание записи пользователя
-        const createUserRecord = async () => {
-            if (!userId.value) return
+        // const createUserRecord = async () => {
+        //     if (!userId.value) return
             
-            try {
-                const userRef = firebase.firestore().collection('users').doc(userId.value.toString())
-                await userRef.set({
-                    id: userId.value,
-                })
-            } catch (error) {
-                console.error('Ошибка создания пользователя:', error);
-            }
-        };
+        //     try {
+        //         const userRef = firebase.firestore().collection('users').doc(userId.value.toString())
+        //         await userRef.set({
+        //             id: userId.value,
+        //         })
+        //     } catch (error) {
+        //         console.error('Ошибка создания пользователя:', error);
+        //     }
+        // };
 
         // // Проверяем, авторизован ли пользователь через Telegram
         // if (user) {

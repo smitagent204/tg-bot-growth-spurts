@@ -31,12 +31,6 @@
         })
         const db = firebase.firestore()
 
-        const tg = window.Telegram.WebApp
-        const user = tg.initDataUnsafe?.user
-        if (user) {
-            userId.value = user.id
-        }
-        console.log(user)
 
         // Создание записи пользователя
         const createUserRecord = async () => {
@@ -111,13 +105,21 @@
         //     });
         // }
 
-        const { createApp, ref } = Vue;
+        const { createApp, ref, onMounted } = Vue;
         
         const app = createApp({
             setup() {
                 const message = ref(user);
                 const userId = ref('')
                 const count = ref(0);
+                onMounted(() => {
+                    const tg = window.Telegram.WebApp
+                    const user = tg.initDataUnsafe?.user
+                    if (user) {
+                        userId.value = user.id
+                    }
+                    console.log(user)
+                })
                 
                 const increment = () => {
                     count.value++;
